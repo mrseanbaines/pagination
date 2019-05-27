@@ -1,0 +1,25 @@
+{
+  "name": "@mrseanbaines/pagination",
+  "version": "0.0.0",
+  "description": "A basic React pagination component",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mrseanbaines/pagination"
+  },
+  "keywords": [
+    "pagination",
+    "paginate",
+    "react",
+    "javascript"
+  ],
+  "author": "Sean Baines",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mrseanbaines/pagination/issues"
+  },
+  "homepage": "https://github.com/mrseanbaines/pagination#readme"
+}
