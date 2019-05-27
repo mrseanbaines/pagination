@@ -3,6 +3,11 @@
   "version": "0.0.0",
   "description": "A basic React pagination component",
   "main": "index.js",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
   "scripts": {
     "start": "webpack-dev-server --mode=development",
     "build": "webpack --mode=production",
@@ -10,8 +15,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "lint": "eslint . --fix",
-    "lint:check": "eslint .",
-    "precommit": "npm run lint"
+    "lint:check": "eslint ."
   },
   "repository": {
     "type": "git",
