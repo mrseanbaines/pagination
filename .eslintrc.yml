@@ -12,6 +12,7 @@ parserOptions:
   sourceType: module
 plugins:
   - react
+parser: babel-eslint
 rules:
   import/no-extraneous-dependencies:
     - 2
