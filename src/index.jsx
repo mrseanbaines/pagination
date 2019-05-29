@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { range } from './utils';
+import { Wrapper, PageButton, DirectionArrow } from './styles';
+import arrowLeft from './icons/chevron-left.svg';
+import arrowRight from './icons/chevron-right.svg';
 
 const ELLIPSIS = '\u2026';
 
@@ -57,38 +60,33 @@ class Pagination extends PureComponent {
 
   render = () => {
     const { currentPage } = this.state;
+    const { totalPages } = this;
 
     return (
-      <>
-        <button type="button" onClick={() => this.goToPage(currentPage - 1)}>
-          &lt;
-        </button>
-        <ul>
-          {this.pages().map((page) => {
-            const active = currentPage === page;
+      <Wrapper>
+        <PageButton disabled={currentPage === 1} onClick={() => this.goToPage(currentPage - 1)}>
+          <DirectionArrow src={arrowLeft} alt="" />
+        </PageButton>
+        {this.pages().map((page) => {
+          const active = currentPage === page;
 
-            if (page === ELLIPSIS) {
-              return <li>{page}</li>;
-            }
+          if (page === ELLIPSIS) {
+            return <PageButton disabled>{page}</PageButton>;
+          }
 
-            return (
-              <li style={active ? { color: 'red' } : undefined}>
-                <button
-                  disabled={active}
-                  type="button"
-                  style={active ? { color: 'red' } : undefined}
-                  onClick={() => this.goToPage(page)}
-                >
-                  {page}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-        <button type="button" onClick={() => this.goToPage(currentPage + 1)}>
-          &gt;
-        </button>
-      </>
+          return (
+            <PageButton disabled={active} onClick={() => this.goToPage(page)}>
+              {page}
+            </PageButton>
+          );
+        })}
+        <PageButton
+          disabled={currentPage === totalPages}
+          onClick={() => this.goToPage(currentPage + 1)}
+        >
+          <DirectionArrow src={arrowRight} alt="" />
+        </PageButton>
+      </Wrapper>
     );
   };
 }

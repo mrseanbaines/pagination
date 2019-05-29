@@ -17,4 +17,4 @@ rules:
   import/no-extraneous-dependencies:
     - 2
     - devDependencies:
-      - "**/*.stories.{js,jsx}"
+      - '**/*.stories.{js,jsx}'
