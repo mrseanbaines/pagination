@@ -73,6 +73,7 @@ class Pagination extends PureComponent {
         <PageButton disabled={currentPage === 1} onClick={() => this.goToPage(currentPage - 1)}>
           <DirectionArrow src={arrowLeft} alt="" />
         </PageButton>
+
         {this.pages().map((page) => {
           const active = currentPage === page;
 
@@ -82,6 +83,7 @@ class Pagination extends PureComponent {
             </PageButton>
           );
         })}
+
         <PageButton
           disabled={currentPage === totalPages}
           onClick={() => this.goToPage(currentPage + 1)}
