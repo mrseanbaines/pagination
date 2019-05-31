@@ -1,2 +1,2 @@
-/* eslint-disable import/prefer-default-export */
 export { default as range } from './range';
+export { default as limit } from './limit';

@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { range } from './utils';
+import { range, limit } from './utils';
 import { Wrapper, PageButton, DirectionArrow } from './styles';
 import arrowLeft from './icons/chevron-left.svg';
 import arrowRight from './icons/chevron-right.svg';
-
-const ELLIPSIS = '\u2026';
 
 class Pagination extends PureComponent {
   constructor(props) {
@@ -15,29 +13,37 @@ class Pagination extends PureComponent {
       currentPage: 1,
     };
 
-    this.totalPages = Math.ceil(props.totalItems / props.itemsPerPage);
+    this.totalPages = this.setTotalPages();
   }
+
+  componentDidUpdate = (prevProps) => {
+    const { totalItems, itemsPerPage } = this.props;
+
+    if (prevProps.totalItems !== totalItems || prevProps.itemsPerPage !== itemsPerPage) {
+      this.totalPages = this.setTotalPages();
+    }
+  };
+
+  setTotalPages = () => {
+    const { totalItems, itemsPerPage } = this.props;
+
+    return Math.ceil(totalItems / itemsPerPage);
+  };
 
   pages = () => {
     const { currentPage } = this.state;
-    const { siblings, showEllipsis } = this.props;
+    const { pageSiblings } = this.props;
     const { totalPages } = this;
 
-    const minPages = siblings * 2 + (showEllipsis ? 2 : 1);
-    const from = Math.max(1, Math.min(totalPages - minPages + 1, currentPage - siblings));
-    const to = Math.min(totalPages, Math.max(minPages, currentPage + siblings));
+    const totalBlocks = pageSiblings * 2 + 1;
 
-    const result = range(from, to);
+    const lower = limit(1, totalPages - totalBlocks + 1);
+    const upper = limit(totalBlocks, totalPages);
 
-    if (showEllipsis && currentPage - siblings > 1) {
-      result.unshift(ELLIPSIS);
-    }
+    const startPage = lower(currentPage - pageSiblings);
+    const endPage = upper(currentPage + pageSiblings);
 
-    if (showEllipsis && currentPage + siblings < totalPages) {
-      result.push(ELLIPSIS);
-    }
-
-    return result;
+    return range(startPage, endPage);
   };
 
   goToPage = (pageNumber) => {
@@ -70,12 +76,8 @@ class Pagination extends PureComponent {
         {this.pages().map((page) => {
           const active = currentPage === page;
 
-          if (page === ELLIPSIS) {
-            return <PageButton disabled>{page}</PageButton>;
-          }
-
           return (
-            <PageButton disabled={active} onClick={() => this.goToPage(page)}>
+            <PageButton key={page} disabled={active} onClick={() => this.goToPage(page)}>
               {page}
             </PageButton>
           );
@@ -93,17 +95,15 @@ class Pagination extends PureComponent {
 
 Pagination.defaultProps = {
   itemsPerPage: 25,
-  siblings: 1,
+  pageSiblings: 0,
   onPageChange: () => {},
-  showEllipsis: false,
 };
 
 Pagination.propTypes = {
   totalItems: PropTypes.number.isRequired,
   itemsPerPage: PropTypes.number,
-  siblings: PropTypes.number,
+  pageSiblings: PropTypes.oneOf([0, 1, 2]),
   onPageChange: PropTypes.func,
-  showEllipsis: PropTypes.bool,
 };
 
 export default Pagination;

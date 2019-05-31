@@ -7,6 +7,10 @@ const stories = storiesOf('Pagination', module);
 
 stories.add('default', () => <Pagination totalItems={235} onPageChange={action('Page change')} />);
 
-stories.add('with ellipsis', () => (
-  <Pagination totalItems={235} showEllipsis onPageChange={action('Page change')} />
+stories.add('with 10 items per page', () => (
+  <Pagination totalItems={235} onPageChange={action('Page change')} itemsPerPage={10} />
+));
+
+stories.add('with page siblings', () => (
+  <Pagination totalItems={235} onPageChange={action('Page change')} pageSiblings={1} />
 ));
